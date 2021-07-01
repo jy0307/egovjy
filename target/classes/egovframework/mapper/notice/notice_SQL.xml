@@ -51,9 +51,9 @@
                  ,#{fixtop}
                </when>
              <otherwise>
-                ,0
+                ,0  )
              </otherwise>
-           </choose> )
+           </choose> 
     </insert>
    
     	<select id="NoticeDAO.selectNoticeDetail" resultType="EgovMap">

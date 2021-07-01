@@ -34,8 +34,8 @@
 	}
 
 	function fn_reset_searchWrd() {
-		document.boardListFrm.searchCnd1.value = 0;
-		document.boardListFrm.searchWrd.value = "";
+		document.noticeListFrm.searchCnd1.value = 0;
+		document.noticeListFrm.searchWrd.value = "";
 	}
 </script>
 <body>
