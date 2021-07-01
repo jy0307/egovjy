@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="NoticeDAO">
+    <select id="NoticeDAO.selectNoticeList" resultType="EgovMap">
+        SELECT 
+          bno 
+         ,title 
+         ,user
+         ,content
+         ,date_format(regdate,'%Y-%m-%d') as regdate
+         ,view
+         ,fixtop
+        FROM board
+        <choose>
+			<when test="searchCnd1 == 1">
+				WHERE title LIKE CONCAT('%',#{searchWrd} ,'%')
+			</when>
+			<when test="searchCnd1 == 2">
+				WHERE content LIKE CONCAT('%',#{searchWrd} ,'%')
+			</when>
+			<when test="searchCnd1 == 0">
+				WHERE(
+						title LIKE CONCAT('%',#{searchWrd} ,'%') or
+						content LIKE CONCAT('%',#{searchWrd} ,'%')
+					)
+			</when>
+		</choose>	
+        ORDER BY fixtop DESC, bno DESC
+        LIMIT #{recordCountPerPage} OFFSET #{firstIndex}
+    </select>
+	 
+	 <select id="NoticeDAO.selectNoticeListCnt" resultType="int">
+		SELECT 	count(bno)
+				
+		FROM 	board
+	</select>
+	 
+    <insert id ="NoticeDAO.noticeWriteAction">
+       INSERT INTO board(
+          title
+         ,user
+         ,content
+         ,fixtop
+       
+       )VALUES(
+           #{title}
+          ,#{user}
+          ,#{content}
+           <choose>
+               <when test="fixtop == 1">
+                 ,#{fixtop}
+               </when>
+             <otherwise>
+                ,0
+             </otherwise>
+           </choose> )
+    </insert>
+   
+    	<select id="NoticeDAO.selectNoticeDetail" resultType="EgovMap">
+		SELECT 
+			   bno 
+               ,title
+               ,content 
+               ,user
+               ,date_format(regdate,'%Y-%m-%d') as regdate
+               ,view
+               ,fixtop
+		 FROM board
+		WHERE bno = #{bno} 
+	</select>
+	
+	<delete id="NoticeDAO.noticeDeleteAction">
+		DELETE
+		FROM board    
+		WHERE bno = #{bno}
+	</delete>
+	
+	<update id="NoticeDAO.noticeUpdateAction">
+		UPDATE board SET
+		
+		    title           =#{title}
+		   ,content			 =#{content}
+      <choose>
+       <when test="fixtop == 1">
+          ,fixtop    =#{fixtop}
+       </when>
+         <otherwise>
+          ,fixtop    =0
+         </otherwise>
+       </choose> 
+		WHERE bno = #{bno}
+	</update>
+	
+	<update id="NoticeDAO.noticeUpdateCount" parameterType="int">
+	   UPDATE board SET
+       
+          view = view+1
+          WHERE bno = #{bno}
+	</update>
+</mapper>

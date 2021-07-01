@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="NoticeDAO">
+    <select id="NoticeDAO.selectNoticeList" resultType="EgovMap">
+        SELECT 
+          bno 
+         ,title 
+         ,user
+         ,date_format(regdate,'%Y-%m-%d') as regdate
+         ,view
+        FROM board
+    </select>
+    
+    <select id ="NoticeDAO.selectDetailNotice" resultType="EgovMap">
+      SELECT
+          bno 
+         ,title 
+         ,user
+         ,date_format(regdate,'%Y-%m-%d') as regdate
+         ,view
+         ,fixed
+      FROM board 
+      WHERE bno = #{bno}
+    </select>
+    
+    <insert id ="NoticeDAO.insertNoticeWrite">
+       INSERT INTO board(
+          title
+         ,user
+         ,content
+       
+       )VALUES(
+           #{title}
+          ,#{user}
+          ,#{content}
+       )
+    </insert>
+</mapper>
