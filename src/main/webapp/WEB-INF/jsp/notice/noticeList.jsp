@@ -12,9 +12,9 @@
 </head>
 <script>
 	function fn_egov_select_List(pageNo) {
-		document.boardListFrm.pageIndex.value = pageNo;
-		document.boardListFrm.action = "<c:url value='/noticeList.do'/>";
-		document.boardListFrm.submit();
+		document.noticeListFrm.pageIndex.value = pageNo;
+		document.noticeListFrm.action = "<c:url value='/noticeList.do'/>";
+		document.noticeListFrm.submit();
 	}
 	function fn_write() {
 
