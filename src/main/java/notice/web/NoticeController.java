@@ -1,5 +1,6 @@
 package notice.web;
 
+import java.util.HashMap;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -49,6 +51,9 @@ public class NoticeController {
 		searchVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());	
 		
 		List<?> listData =  noticeService.selectNoticeList(searchVO);
+		
+		List<?> fixtop = noticeService.selectNoticeTop(searchVO);
+		
         int totalCnt = noticeService.selectNoticeListCnt(searchVO);
 		
 		paginationInfo.setTotalRecordCount(totalCnt);
@@ -56,6 +61,8 @@ public class NoticeController {
 		model.addAttribute("paginationInfo", paginationInfo);
 		model.addAttribute("searchVO", searchVO);
 		model.addAttribute("list", listData);
+		model.addAttribute("fixtop", fixtop);
+		
 		return "notice/noticeList";
 	}
 	
